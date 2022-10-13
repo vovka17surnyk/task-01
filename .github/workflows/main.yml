@@ -23,7 +23,7 @@ jobs:
     
     steps:
       - name: Test of main.go app
-        run:
+        run: |
             mkdir -p binaries 
             gofmt -e main.go
             go build -o ./binaries/main ./...

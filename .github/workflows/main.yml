@@ -15,8 +15,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: test hello
-      - run: echo "hello world"
+    - name: test hello
+      run: echo "hello world"
 # jobs:
 #   test:
 #     runs-on: golang:1.12-alpine

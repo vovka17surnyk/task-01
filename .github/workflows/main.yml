@@ -6,31 +6,31 @@ on:
   push:
     branches: 
       - main
-#       - dev
-#   pull_request:
-#     branches: 
-#       - main
-#       - dev
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: test hello
-      run: echo "hello world"
+      - dev
+  pull_request:
+    branches: 
+      - main
+      - dev
 # jobs:
 #   test:
-#     runs-on: golang:1.12-alpine
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: test hello
+#       run: echo "hello world"
+jobs:
+  test:
+    runs-on: golang:1.12-alpine
     
-#     steps:
-#       - name: Test of main.go app
-#       - run: |
-#             mkdir -p binaries 
-#             gofmt -e main.go
-#             go build -o ./binaries/main ./...
+    steps:
+      - name: Test of main.go app
+        run: |
+            mkdir -p binaries 
+            gofmt -e main.go
+            go build -o ./binaries/main ./...
 
-#   build:
-#     runs-on: docker:latest
-#     needs: [test]
-#     steps:
-#       - name: Build Docker image
-#       - run: docker build -t task-01 .
+  build:
+    runs-on: docker:latest
+    needs: [test]
+    steps:
+      - name: Build Docker image
+        run: docker build -t task-01 .

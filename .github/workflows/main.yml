@@ -1,0 +1,29 @@
+name: CI-task-01
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" and "dev" branch
+  push:
+    branches: 
+      - main
+      - dev
+  pull_request:
+    branches: 
+      - main
+      - dev
+jobs:
+  test:
+    runs-on: golang:1.12-alpine
+    
+    steps:
+      - name: Test of main.go app
+      - run: |
+            mkdir -p binaries 
+            gofmt -e main.go
+            go build -o ./binaries/main ./...
+
+  build:
+    runs-on: docker:latest
+    steps:
+      - name: Build Docker image
+      - run: docker build -t task-01 .

@@ -19,7 +19,7 @@ on:
 #       run: echo "hello world"
 jobs:
   test:
-    runs-on: golang:1.12-alpine
+    runs-on: ubuntu-latest
     
     steps:
       - name: Test of main.go app

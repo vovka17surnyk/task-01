@@ -3,6 +3,8 @@ name: CI-task
 on:
   push:
     branches: [ "main" , "dev" ]
+    tags: 
+      - '\d{1,2}\.\d{1,2}\.\d{1,2}'
   pull_request:
     branches: [ "main" , "dev" ]
     tags: 

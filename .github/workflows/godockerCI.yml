@@ -37,11 +37,8 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         
     - name: Build the Docker image
-      run: docker build --tag my-image-name .
+      run: docker build --tag ${{ github.event.repository.name }} .
     
-    - name: test of env
-      run: |
-       REPO_NAME=${{ github.event.repository.name }}
-       echo "hello $REPO_NAME"
+
 
 

@@ -28,6 +28,18 @@ jobs:
     - name: Build
       run: go build -v ./...
       
+    - name: Report Status
+      if: always()
+      uses: ravsamhq/notify-slack-action@v1
+      with:
+        status: ${{ job.status }}
+        notify_when: 'failure'
+        notification_title: '{workflow} has {status_message}'
+        message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
+        footer: 'Linked to Repo <{repo_url}|{repo}>'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}      
+      
   build:
 
     runs-on: ubuntu-latest
@@ -56,12 +68,6 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-  
-  check:
-    runs-on: ubuntu-latest
-    if: always()
-    needs: [test,build]
-    steps:
     - name: Report Status
       if: always()
       uses: ravsamhq/notify-slack-action@v1
@@ -72,6 +78,23 @@ jobs:
         message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
         footer: 'Linked to Repo <{repo_url}|{repo}>'
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+        SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}        
+  
+#   check:
+#     runs-on: ubuntu-latest
+#     if: always()
+#     needs: [test,build]
+#     steps:
+#     - name: Report Status
+#       if: always()
+#       uses: ravsamhq/notify-slack-action@v1
+#       with:
+#         status: ${{ job.status }}
+#         notify_when: 'failure'
+#         notification_title: '{workflow} has {status_message}'
+#         message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
+#         footer: 'Linked to Repo <{repo_url}|{repo}>'
+#       env:
+#         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
 

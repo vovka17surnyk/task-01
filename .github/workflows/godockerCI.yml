@@ -56,7 +56,11 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        
+  
+  check:
+    runs-on: ubuntu-latest
+    needs: [test,build]
+    steps:
     - name: Report Status
       if: always()
       uses: ravsamhq/notify-slack-action@v1

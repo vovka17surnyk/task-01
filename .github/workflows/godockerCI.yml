@@ -38,6 +38,10 @@ jobs:
         
     - name: Build the Docker image
       run: docker build --tag my-image-name .
-
+    
+    - name: test of env
+      run: |
+       echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_EN
+       echo hello $REPO_NAME
 
 

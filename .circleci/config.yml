@@ -101,19 +101,21 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - test
-          # filters:
-            # branches:
-            #   only:
-            #     - main
-            #     - dev
-            # tags:
-            #   only: \d{1,2}\.\d{1,2}\.\d{1,2}
+          filters:
+            branches:
+              only:
+                - main
+                - dev
+                - circleci-project-setup
+            tags:
+              only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
       - build
-          # filters:
-          #   branches:
-          #     only:
-          #       - main
-          #       - dev
-            # tags:
-            #   only: \d{1,2}\.\d{1,2}\.\d{1,2}
+          filters:
+            branches:
+              only:
+                - main
+                - dev
+                - circleci-project-setup
+            tags:
+              only: \d{1,2}\.\d{1,2}\.\d{1,2}

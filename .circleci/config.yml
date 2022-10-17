@@ -100,7 +100,7 @@ workflows:
   godockerci: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - test
+      - test:
           filters:
             branches:
               only:
@@ -110,7 +110,7 @@ workflows:
             tags:
               only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
-      - build
+      - build:
           filters:
             branches:
               only:

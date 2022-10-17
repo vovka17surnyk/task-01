@@ -106,8 +106,8 @@ workflows:
               only:
                 - main
                 - dev
-            tags:
-              only: \d{1,2}\.\d{1,2}\.\d{1,2}
+            # tags:
+            #   only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
       - build:
           filters:
@@ -115,5 +115,5 @@ workflows:
               only:
                 - main
                 - dev
-            tags:
-              only: \d{1,2}\.\d{1,2}\.\d{1,2}
+            # tags:
+            #   only: \d{1,2}\.\d{1,2}\.\d{1,2}

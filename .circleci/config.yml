@@ -28,6 +28,7 @@ jobs:
             }
           event: always
 
+          
   test:
     docker:
       - image: circleci/golang:1.15.8

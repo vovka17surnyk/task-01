@@ -1,9 +1,14 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.9.3
 jobs:
   notify:
     docker:
       - image: 'cimg/base:stable'
+        # auth:
+        #   username: mydockerhub-user
+        #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - slack/notify:
           custom: |
@@ -66,3 +71,6 @@ workflows:
                 - dev
             tags:
               only: \d{1,2}\.\d{1,2}\.\d{1,2}
+
+      - notify:
+           context: task-01context      

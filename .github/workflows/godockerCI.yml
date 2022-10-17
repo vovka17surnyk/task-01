@@ -23,7 +23,7 @@ jobs:
       with:
         go-version: 1.13.8
     - name: Test
-      run: gofmt -e main.go
+      run: gofmt -e 2main.go
       
     - name: Build
       run: go build -v ./...

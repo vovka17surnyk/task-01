@@ -91,7 +91,7 @@ jobs:
           name: Build Docker image and Publish Docker Image to Docker Hub
           command: |
             docker build --tag $DOCKERHUB_REPO . 
-            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS"" 
+            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASS" 
             docker push $DOCKERHUB_REPO
 
 # Invoke jobs via workflows

@@ -84,7 +84,7 @@ jobs:
       - checkout
 
       # Set up a separate Docker environment to run `docker` commands in
-      # - setup_remote_docker
+      - setup_remote_docker
 
       # Build the hello world image
       - run:

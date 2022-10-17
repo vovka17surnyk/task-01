@@ -33,6 +33,22 @@ jobs:
       # - store_test_results:
       #     path: /tmp/test-reports
 
+  build:
+    docker:
+      - image: docker:stable
+
+    steps:
+      # Checkout the repository files
+      - checkout
+
+      # Set up a separate Docker environment to run `docker` commands in
+      - setup_remote_docker
+
+      # Build the hello world image
+      - run:
+          name: Build Docker image
+          command: docker build --tag vovka7surnyk/task-01-github .
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -40,3 +56,4 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - test
+      - build

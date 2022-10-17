@@ -106,7 +106,7 @@ workflows:
               only:
                 - main
                 - dev
-                - circleci-project-setup
+                # - circleci-project-setup
             tags:
               only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
@@ -116,6 +116,6 @@ workflows:
               only:
                 - main
                 - dev
-                - circleci-project-setup
+                # - circleci-project-setup
             tags:
               only: \d{1,2}\.\d{1,2}\.\d{1,2}

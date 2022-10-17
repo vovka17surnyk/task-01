@@ -12,7 +12,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	http.HandleFunc("/hello", helloHandler)
+	ttp.HandleFunc("/hello", helloHandler)
 	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 
 }

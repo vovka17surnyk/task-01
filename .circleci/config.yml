@@ -6,27 +6,30 @@ jobs:
   notify:
     docker:
       - image: 'cimg/base:stable'
-        # auth:
-        #   username: $DOCKERHUB_USERNAME
-        #   password: $DOCKERHUB_PASS  # context / project UI env-var reference
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASS  # context / project UI env-var reference
     steps:
       - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "*Your Test is FAILED*",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
+            event: always
+            template: basic_fail_1
+      # - slack/notify:
+      #     custom: |
+      #       {
+      #         "blocks": [
+      #           {
+      #             "type": "section",
+      #             "fields": [
+      #               {
+      #                 "type": "plain_text",
+      #                 "text": "*Your Test is FAILED*",
+      #                 "emoji": true
+      #               }
+      #             ]
+      #           }
+      #         ]
+      #       }
+      #     event: always
 
          
   test:

@@ -5,7 +5,7 @@ orbs:
 jobs:         
   test:
     docker:
-      - image: circleci/golang:1.15.8
+      # - image: circleci/golang:1.15.8
       - image: 'cimg/base:stable'
         auth:
           username: $DOCKERHUB_USERNAME
@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Build Docker image and Publish Docker Image to Docker Hub
           command: |
-            1docker build --tag $DOCKERHUB_REPO . 
+            docker build --tag $DOCKERHUB_REPO . 
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $DOCKERHUB_REPO
       - slack/notify:

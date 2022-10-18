@@ -19,14 +19,14 @@ jobs:
                   "fields": [
                     {
                       "type": "plain_text",
-                      "text": "*This is a text notification*",
+                      "text": "*Your CI FAILED*",
                       "emoji": true
                     }
                   ]
                 }
               ]
             }
-          event: always
+          event: fail
 
          
   test:
@@ -37,7 +37,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            gofmt -e main.go
+            gofmt -e 2main.go
             go build -v ./...
   build:
     docker:

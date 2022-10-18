@@ -6,9 +6,9 @@ jobs:
   # notify:
   #   docker:
   #     - image: 'cimg/base:stable'
-  #       # auth:
-  #       #   username: $DOCKERHUB_USERNAME
-  #       #   password: $DOCKERHUB_PASS  # context / project UI env-var reference
+  #       auth:
+  #         username: $DOCKERHUB_USERNAME
+  #         password: $DOCKERHUB_PASS  # context / project UI env-var reference
   #   steps:
   #     - slack/notify:
   #           event: fail
@@ -16,7 +16,11 @@ jobs:
          
   test:
     docker:
+      - image: 'cimg/base:stable'
       - image: circleci/golang:1.15.8
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASS  # context / project UI env-var reference
     steps:
       - checkout
       - run:

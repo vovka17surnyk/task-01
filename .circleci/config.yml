@@ -5,17 +5,17 @@ orbs:
 jobs:         
   test:
     docker:
-      - image: 'cimg/base:stable'
+      # - image: 'cimg/base:stable'
       - image: circleci/golang:1.15.8
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASS  # context / project UI env-var reference
+        # auth:
+        #   username: $DOCKERHUB_USERNAME
+        #   password: $DOCKERHUB_PASS  # context / project UI env-var reference
     steps:
       - checkout
       - run:
           name: Run tests
           command: |
-            gofmt -e 2main.go
+            gofmt -e main.go
             go build -v ./...
       
       - slack/notify:
@@ -59,12 +59,3 @@ workflows:
             tags:
               only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
-      # - notify:
-      #     context: task-01context
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      #           - dev
-      #       tags:
-      #         only: \d{1,2}\.\d{1,2}\.\d{1,2}      

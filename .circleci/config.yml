@@ -23,7 +23,7 @@ jobs:
             template: basic_fail_1
   build:
     docker:
-      - image: docker:stable
+      # - image: docker:stable
       - image: 'cimg/base:stable'
         auth:
           username: $DOCKERHUB_USERNAME

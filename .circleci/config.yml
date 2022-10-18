@@ -11,7 +11,7 @@ jobs:
         #   password: $DOCKERHUB_PASS  # context / project UI env-var reference
     steps:
       - slack/notify:
-            event: always
+            event: fail
             template: basic_fail_1
          
   test:
@@ -24,6 +24,10 @@ jobs:
           command: |
             gofmt -e 2main.go
             go build -v ./...
+      
+      - slack/notify:
+            event: fail
+            template: basic_fail_1
   build:
     docker:
       - image: docker:stable

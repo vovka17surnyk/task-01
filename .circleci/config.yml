@@ -6,9 +6,9 @@ jobs:
   notify:
     docker:
       - image: 'cimg/base:stable'
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASS  # context / project UI env-var reference
+        # auth:
+        #   username: $DOCKERHUB_USERNAME
+        #   password: $DOCKERHUB_PASS  # context / project UI env-var reference
     steps:
       - slack/notify:
           custom: |
@@ -19,14 +19,14 @@ jobs:
                   "fields": [
                     {
                       "type": "plain_text",
-                      "text": "*Your CI FAILED*",
+                      "text": "*Your Test is FAILED*",
                       "emoji": true
                     }
                   ]
                 }
               ]
             }
-          event: fail
+          event: always
 
          
   test:

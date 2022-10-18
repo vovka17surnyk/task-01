@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            gofmt -e main.go
+            gofmt -e 1main.go
             go build -v ./...
       
       - slack/notify:

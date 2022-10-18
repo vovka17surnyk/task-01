@@ -3,21 +3,20 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.9.3
 jobs:
-  notify:
-    docker:
-      - image: 'cimg/base:stable'
-        # auth:
-        #   username: $DOCKERHUB_USERNAME
-        #   password: $DOCKERHUB_PASS  # context / project UI env-var reference
-    steps:
-      - slack/notify:
-            event: fail
-            template: basic_fail_1
+  # notify:
+  #   docker:
+  #     - image: 'cimg/base:stable'
+  #       # auth:
+  #       #   username: $DOCKERHUB_USERNAME
+  #       #   password: $DOCKERHUB_PASS  # context / project UI env-var reference
+  #   steps:
+  #     - slack/notify:
+  #           event: fail
+  #           template: basic_fail_1
          
   test:
     docker:
       - image: circleci/golang:1.15.8
-      - image: 'cimg/base:stable'
     steps:
       - checkout
       - run:
@@ -65,12 +64,12 @@ workflows:
             tags:
               only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
-      - notify:
-          context: task-01context
-          filters:
-            branches:
-              only:
-                - main
-                - dev
-            tags:
-              only: \d{1,2}\.\d{1,2}\.\d{1,2}      
+      # - notify:
+      #     context: task-01context
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #           - dev
+      #       tags:
+      #         only: \d{1,2}\.\d{1,2}\.\d{1,2}      

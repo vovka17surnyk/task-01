@@ -46,6 +46,7 @@ workflows:
   godockerci: 
     jobs:
       - test:
+          context: task-01context
           filters:
             branches:
               only:
@@ -55,6 +56,7 @@ workflows:
               only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
       - build:
+          context: task-01context
           filters:
             branches:
               only:

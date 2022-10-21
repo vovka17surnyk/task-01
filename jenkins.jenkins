@@ -1,0 +1,134 @@
+// pipeline {
+//     agent {label 'agent2'}
+//         // kubernetes {
+//         //     yaml '''
+//         //         apiVersion: v1
+//         //         kind: Pod
+//         //         spec:
+//         //           containers:
+//         //           - name: go
+//         //             image: golang:1.13
+//         //             command: ["/bin/sh", "-c", "sleep infinity"]
+//         //           - name: "jnlp"
+//         //             image: "jenkins/inbound-agent:4.3-4"
+//         //             resources:
+//         //               limits: {}
+//         //               requests:
+//         //                 memory: "1042Mi"
+//         //                 cpu: "500m"
+//         //             volumeMounts:
+//         //             - mountPath: "/home/jenkins/agent"
+//         //               name: "workspace-volume"
+//         //               readOnly: false
+
+//         //         //   - name: "kaniko"
+//         //         //     image: gcr.io/kaniko-project/executor:debug
+//         //         //     volumeMounts:
+//         //         //       - name: kaniko-secret
+//         //         //       mountPath: /kaniko/.docker
+//         //         //     restartPolicy: Never
+//         //         //     volumes:
+//         //         //     - name: kaniko-secret
+//         //         //       secret:
+//         //         //           secretName: saas-credentials
+//         //         //           items:
+//         //         //           - key: .dockerconfigjson
+//         //         //             path: config.json
+//         //     '''
+
+// //     }
+// // }
+  
+
+//     stages{
+//      stage("Git clone"){
+        
+//         steps{
+//             checkout([$class: 'GitSCM',
+//                 branches: [[name: '*/main']],
+//                 userRemoteConfigs: [[url: 'https://github.com/vovka17surnyk/task-01-github.git']]])
+//         }}
+//     //  stage ('Clone kaniko') {
+//     //     steps {container('maven')  {
+//     //         git url: 'https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
+//     //     }}}
+        
+//      stage("Test") {
+//         steps{
+//             sh "gofmt -e main.go"
+//        }}
+     
+//      stage('Build') {
+        
+//         steps{
+//             sh """
+//                 docker login -u $DOCKER_HUB_CREDS.username -p $DOCKER_HUB_CREDS.password
+//                 docker build --tag $DOCKER_HUB_CREDS.username/$DOCKER_HUB_REPO .
+//                 docker push $DOCKER_HUB_CREDS.username/$DOCKER_HUB_REPO
+//             """
+//       }}
+
+//     //  stage('Alert') {
+//     //     when {
+//     //       expression {
+//     //         currentBuild.result != null || currentBuild.result == 'FAIL' 
+//     //       }}
+//     //     steps{
+//     //         sh """
+//     //         curl -X POST -H 'Content-type: application/json' --data '{"text":"Failed Jenkins pipeline, andrew-ito/task-01"}' "https://hooks.slack.com/services/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"
+//     //         """
+//     //     }
+//     //     }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+pipeline {
+  environment {
+    imagename = "yenigul/hacicenkins"
+    registryCredential = 'yenigul-dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git([url: 'https://github.com/ismailyenigul/hacicenkins.git', branch: 'master', credentialsId: 'ismailyenigul-github-user-token'])
+
+      }
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $imagename:$BUILD_NUMBER"
+         sh "docker rmi $imagename:latest"
+
+      }
+    }
+  }
+}

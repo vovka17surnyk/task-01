@@ -1,72 +1,72 @@
-version: 2.1
+# version: 2.1
 
-orbs:
-  slack: circleci/slack@4.9.3
-jobs:         
-  test:
-    docker:
-      - image: circleci/golang:1.15.8      
-      # - image: 'cimg/base:stable'
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASS  # context / project UI env-var reference
+# orbs:
+#   slack: circleci/slack@4.9.3
+# jobs:         
+#   test:
+#     docker:
+#       - image: circleci/golang:1.15.8      
+#       # - image: 'cimg/base:stable'
+#         auth:
+#           username: $DOCKERHUB_USERNAME
+#           password: $DOCKERHUB_PASS  # context / project UI env-var reference
 
-    steps:
-      - checkout
-      - run:
-          name: Run tests
-          command: |
-            gofmt -e main.go
-            go build -v ./...
+#     steps:
+#       - checkout
+#       - run:
+#           name: Run tests
+#           command: |
+#             gofmt -e main.go
+#             go build -v ./...
       
-      - slack/notify:
-            event: fail
-            template: basic_fail_1
-  build:
-    docker:
-      # - image: docker:stable
-      - image: 'cimg/base:stable'
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASS  # context / project UI env-var reference
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build Docker image and Publish Docker Image to Docker Hub
-          command: |
-            docker build --tag $DOCKERHUB_REPO . 
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $DOCKERHUB_REPO
-      - slack/notify:
-            event: fail
-            template: basic_fail_1
-      - slack/notify:
-            event: pass
-            template: success_tagged_deploy_1      
+#       - slack/notify:
+#             event: fail
+#             template: basic_fail_1
+#   build:
+#     docker:
+#       # - image: docker:stable
+#       - image: 'cimg/base:stable'
+#         auth:
+#           username: $DOCKERHUB_USERNAME
+#           password: $DOCKERHUB_PASS  # context / project UI env-var reference
+#     steps:
+#       - checkout
+#       - setup_remote_docker
+#       - run:
+#           name: Build Docker image and Publish Docker Image to Docker Hub
+#           command: |
+#             docker build --tag $DOCKERHUB_REPO . 
+#             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+#             docker push $DOCKERHUB_REPO
+#       - slack/notify:
+#             event: fail
+#             template: basic_fail_1
+#       - slack/notify:
+#             event: pass
+#             template: success_tagged_deploy_1      
 
-workflows:
-  godockerci: 
-    jobs:
-      - test:
-          context: task-01context
-          filters:
-            branches:
-              only:
-                - main
-                - dev
-            tags:
-              only: \d{1,2}\.\d{1,2}\.\d{1,2}
+# workflows:
+#   godockerci: 
+#     jobs:
+#       - test:
+#           context: task-01context
+#           filters:
+#             branches:
+#               only:
+#                 - main
+#                 - dev
+#             tags:
+#               only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
-      - build:
-          requires: 
-            - test
-          context: task-01context
-          filters:
-            branches:
-              only:
-                - main
-                - dev
-            tags:
-              only: \d{1,2}\.\d{1,2}\.\d{1,2}
+#       - build:
+#           requires: 
+#             - test
+#           context: task-01context
+#           filters:
+#             branches:
+#               only:
+#                 - main
+#                 - dev
+#             tags:
+#               only: \d{1,2}\.\d{1,2}\.\d{1,2}
 
